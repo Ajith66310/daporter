@@ -2,16 +2,16 @@ import React, { useRef, useEffect } from 'react'
 import Core from 'smooothy'
 
 const slidesData = [
-  { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", username: "@john_doe", color: '#fcf6e6' },
-  { text: "The only way to do great work is to love what you do. If you haven't found it yet, keep looking.", username: "@jane_smith", color: '#fcf6e6' },
-  { text: "Believe you can and you're halfway there. Your limitation it's only your imagination.", username: "@mike_wilson", color: '#fcf6e6' },
-  { text: "It does not matter how slowly you go as long as you do not stop. Keep moving forward.", username: "@sarah_jones", color: '#fcf6e6' },
-  { text: "Everything you've ever wanted is on the other side of fear. Take risks and embrace the unknown.", username: "@alex_brown", color: '#fcf6e6' },
-  { text: "The future belongs to those believe in the beauty of their dreams. Dream big, work hard.", username: "@emma_davis", color: '#fcf6e6' },
-  { text: "In the middle of difficulty lies opportunity. Challenges are what make life interesting.", username: "@chris_taylor", color: '#fcf6e6' },
-  { text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", username: "@lisa_martin", color: '#fcf6e6' },
-  { text: "Your time is limited, don't waste it living someone else's life. Follow your heart.", username: "@david_lee", color: '#fcf6e6' },
-  { text: "The only impossible journey is the one you never begin. Progress, not perfection.", username: "@amy_chen", color: '#fcf6e6' },
+  { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", username: "@john_doe", color: '#f4ede9' },
+  { text: "The only way to do great work is to love what you do. If you haven't found it yet, keep looking.", username: "@jane_smith", color: '#f4ede9' },
+  { text: "Believe you can and you're halfway there. Your limitation it's only your imagination.", username: "@mike_wilson", color: '#f4ede9' },
+  { text: "It does not matter how slowly you go as long as you do not stop. Keep moving forward.", username: "@sarah_jones", color: '#f4ede9' },
+  { text: "Everything you've ever wanted is on the other side of fear. Take risks and embrace the unknown.", username: "@alex_brown", color: '#f4ede9' },
+  { text: "The future belongs to those believe in the beauty of their dreams. Dream big, work hard.", username: "@emma_davis", color: '#f4ede9' },
+  { text: "In the middle of difficulty lies opportunity. Challenges are what make life interesting.", username: "@chris_taylor", color: '#f4ede9' },
+  { text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", username: "@lisa_martin", color: '#f4ede9' },
+  { text: "Your time is limited, don't waste it living someone else's life. Follow your heart.", username: "@david_lee", color: '#f4ede9' },
+  { text: "The only impossible journey is the one you never begin. Progress, not perfection.", username: "@amy_chen", color: '#f4ede9' },
 ];
 
 const AUTO_SPEED = 0.6;

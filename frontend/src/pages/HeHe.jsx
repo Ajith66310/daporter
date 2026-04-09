@@ -23,6 +23,7 @@ export const WORK_DATA = [
         img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80",
       },
     ],
+    
     sticky: {
       img: "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&w=1200",
       eyebrow: "Where We Are Bro",
@@ -150,7 +151,7 @@ function HeroPanels({ panels }) {
         <section key={i} className="absolute inset-0 w-full h-full" style={{ zIndex: panels.length - i }}>
           <div ref={(el) => (imageWrapRefs.current[i] = el)} className="absolute inset-0 w-full h-full overflow-hidden" style={{ clipPath: "inset(0 0 0% 0)" }}>
             <img ref={(el) => (imgRefs.current[i] = el)} src={panel.img} className="absolute inset-0 w-full h-full object-cover" alt="" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
+            <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/60" />
             <div className="absolute inset-0 flex flex-col justify-end p-10 md:p-20">
               <div className="flex flex-col md:flex-row justify-between items-end gap-10">
                 <p ref={(el) => (bodyRefs.current[i] = el)} className="max-w-xs text-white/90 font-light text-sm md:text-base">{panel.body}</p>
@@ -219,14 +220,14 @@ function StickySection({ sticky }) {
 function WorkHeader({ ourWork }) {
   return (
     <section className="bg-[#f9f9f7] font-syne pt-24 pb-12">
-      <div className="max-w-[1150px] mx-auto px-[5%] grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
+      <div className="max-w-287.5 mx-auto px-[5%] grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
         <div>
           <h1 className="text-[clamp(30px,3.5vw,42px)] leading-[1.2] font-light text-[#1a1a1a] whitespace-pre-line uppercase tracking-tight">
             {ourWork.heading}
           </h1>
         </div>
         <div className="flex flex-col pt-5">
-          <p className="text-[13px] leading-[1.8] text-[#555] max-w-[340px] mb-8 border-l border-black/10 pl-6">
+          <p className="text-[13px] leading-[1.8] text-[#555] max-w-85 mb-8 border-l border-black/10 pl-6">
             {ourWork.body}
           </p>
           <button className="flex items-center self-start gap-2.5 bg-[#e8e8e3] rounded-full p-2.5 pr-4 text-[11px] uppercase text-[#444]">
@@ -313,7 +314,7 @@ function WorkVideoAnimation({ ourWork }) {
               ref={(el) => (phoneVideoRefs.current[i] = el)}
               src={ourWork.videosPhone[i]}
               loop muted playsInline autoPlay
-              className="absolute z-[1] object-cover"
+              className="absolute z-2 object-cover"
               style={{
                 top: "2%", left: "4%", right: "4%", bottom: "2%",
                 width: "92%", height: "96%", borderRadius: "36px"
@@ -323,7 +324,7 @@ function WorkVideoAnimation({ ourWork }) {
               ref={(el) => (frameRefs.current[i] = el)}
               src={FRAME_IMG}
               alt="frame"
-              className="absolute inset-0 w-full h-full object-fill z-[2] pointer-events-none"
+              className="absolute inset-0 w-full h-full object-fill z-2 pointer-events-none"
             />
           </div>
         ))}

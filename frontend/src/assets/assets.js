@@ -1,7 +1,9 @@
 import logo from './Primary-Logo-01.png';
+import logo2 from './Primary-Logo-02.png';
 
 export const img = {
   logo,
+  logo2
 };
 
 export const NAV_ITEMS = [
