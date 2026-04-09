@@ -103,16 +103,11 @@ export default function Hero() {
           cursor: pointer;
           transition: background 0.25s, color 0.25s;
         }
-        .shop-btn:hover {
-          background: #111;
-          color: #fff;
-        }
+ 
         .shop-btn svg {
           transition: transform 0.25s;
         }
-        .shop-btn:hover svg {
-          transform: translateX(4px);
-        }
+      
       `}</style>
 
       <main

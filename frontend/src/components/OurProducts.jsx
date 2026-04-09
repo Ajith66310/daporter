@@ -143,9 +143,9 @@ export default function OurProducts() {
 
       <div className="flex items-center justify-between mt-8">
         <p className="text-sm text-neutral-500 leading-relaxed">
-          Would you like to explore more routes
+          Many desktop publishing packages and web page editors
           <br />
-          or customize this trip for your group?
+          Lorem Ipsum is that it has a more-or-less normal distribution ?
         </p>
       </div>
     </section>

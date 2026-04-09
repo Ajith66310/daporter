@@ -63,14 +63,32 @@ function ProductCard({ id, title, subtitle, price, img, category }) {
       className="relative rounded-2xl overflow-hidden cursor-pointer group bg-white border border-gray-100"
       style={{ fontFamily: "'Syne', sans-serif" }}
     >
+      {/* Image */}
       <div className="relative h-56 overflow-hidden">
         <img
           src={img}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+        <div className="absolute top-3 left-3">
+          <span
+            style={{
+              background: "#000",
+              color: "#fff",
+              fontSize: "10px",
+              fontWeight: 600,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              padding: "4px 10px",
+              borderRadius: "999px",
+            }}
+          >
+            {category}
+          </span>
+        </div>
       </div>
 
+      {/* Content */}
       <div className="p-4">
         <h3
           style={{
@@ -110,7 +128,7 @@ function ProductCard({ id, title, subtitle, price, img, category }) {
             }}
             className="group-hover:bg-orange-500"
           >
-            View
+            View →
           </span>
         </div>
       </div>
@@ -145,13 +163,8 @@ export default function Bestseller() {
 
   return (
     <section
-      className="px-12 pt-10 pb-16"
-      style={{
-        fontFamily: "'Syne', sans-serif",
-        background: "#fff",
-        position: "relative",
-        zIndex: 10,
-      }}
+      className="px-12 pt-10"
+      style={{ fontFamily: "'Syne', sans-serif" }}
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');

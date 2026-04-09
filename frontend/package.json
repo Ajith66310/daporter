@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@heroicons/react": "^2.2.0",
     "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/vite": "^4.2.2",
     "dotenv": "^17.4.1",

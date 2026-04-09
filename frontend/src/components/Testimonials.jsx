@@ -1,184 +1,135 @@
-import React, { useRef, useEffect } from 'react'
-import Core from 'smooothy'
+import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import { StarIcon } from '@heroicons/react/20/solid';
 
-const slidesData = [
-  { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", username: "@john_doe", color: '#f4ede9' },
-  { text: "The only way to do great work is to love what you do. If you haven't found it yet, keep looking.", username: "@jane_smith", color: '#f4ede9' },
-  { text: "Believe you can and you're halfway there. Your limitation it's only your imagination.", username: "@mike_wilson", color: '#f4ede9' },
-  { text: "It does not matter how slowly you go as long as you do not stop. Keep moving forward.", username: "@sarah_jones", color: '#f4ede9' },
-  { text: "Everything you've ever wanted is on the other side of fear. Take risks and embrace the unknown.", username: "@alex_brown", color: '#f4ede9' },
-  { text: "The future belongs to those believe in the beauty of their dreams. Dream big, work hard.", username: "@emma_davis", color: '#f4ede9' },
-  { text: "In the middle of difficulty lies opportunity. Challenges are what make life interesting.", username: "@chris_taylor", color: '#f4ede9' },
-  { text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", username: "@lisa_martin", color: '#f4ede9' },
-  { text: "Your time is limited, don't waste it living someone else's life. Follow your heart.", username: "@david_lee", color: '#f4ede9' },
-  { text: "The only impossible journey is the one you never begin. Progress, not perfection.", username: "@amy_chen", color: '#f4ede9' },
+// Import Swiper styles
+import 'swiper/css';
+
+const testimonials = [
+  {
+    name: 'Jake O',
+    stars: 5,
+    quote: 'Digital Download Was Nice. I was able to download a print and bring it to Staples the same day.',
+    location: 'Edmonton, Canada',
+  },
+  {
+    name: 'Ryan',
+    stars: 5,
+    quote: 'Finally, something I can hang in my living room. Really dig the look of these prints.',
+    location: 'Coventry, United Kingdom',
+  },
+  {
+    name: 'Madi P',
+    stars: 5,
+    quote: 'Bought for my boyfriend. He loves them! Something we can hang in the house that we both like!',
+    location: 'Austin, United States',
+  },
+  {
+    name: 'Tony',
+    stars: 5,
+    quote: 'Sweet. Found a print of my S15!',
+    location: 'Vancouver, Canada',
+  },
+  // Adding duplicates helps Swiper maintain a smooth loop at high speeds
+  {
+    name: 'Jake O',
+    stars: 5,
+    quote: 'Digital Download Was Nice. I was able to download a print and bring it to Staples the same day.',
+    location: 'Edmonton, Canada',
+  },
 ];
 
-const AUTO_SPEED = 0.6;
-const RESUME_DELAY = 1500;
-
-const Testimonials = () => {
-  const wrapperRef = useRef(null);
-
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper) return;
-    const slides = [...wrapper.children];
-
-    const preventSelect = (e) => e.preventDefault();
-    wrapper.addEventListener('selectstart', preventSelect);
-
-    const slider = new Core(wrapper, {
-      infinite: false,
-      snap: false,
-      variableWidth: true,
-      lerpFactor: 0.05,
-      speedDecay: 0.97,
-      bounceLimit: 0,
-      setOffset: ({ itemWidth, totalWidth }) => {
-        const gap = window.innerWidth < 1024 ? window.innerWidth * 0.04 : window.innerWidth * 0.015;
-        const lastSlideOffset = (slidesData.length - 1) * (itemWidth + gap);
-        return totalWidth - lastSlideOffset;
-      },
-      onUpdate: (instance) => {
-        const vwOffset = window.innerWidth < 1024 ? window.innerWidth * 0.15 : window.innerWidth * 0.08;
-
-        slides.forEach((slide, i) => {
-          const slideWidth = slide.offsetWidth;
-          const slideLeft = slide.offsetLeft + instance.current;
-          const bgColor = slidesData[i].color;
-          const isLast = i === slidesData.length - 1;
-
-          if (slideLeft < 0 && !isLast) {
-            const ratio = Math.min(1, Math.abs(slideLeft) / slideWidth);
-            slide.style.cssText = `
-              background-color: ${bgColor};
-              border: 2px solid rgba(0,0,0,0.6);
-              transform-origin: left 80%;
-              transform: translateX(${instance.current + Math.abs(slideLeft) + ratio * vwOffset}px) rotate(${-15 * ratio}deg) scale(${1 - ratio * 0.3});
-              position: relative;
-              z-index: ${i + 1};
-            `
-          } else {
-            slide.style.cssText = `
-              background-color: ${bgColor};
-              border: 2px solid rgba(0, 0, 0, 0.6);
-              transform: translateX(${instance.current}px);
-              z-index: ${i + 1};
-            `
-          }
-        })
-      }
-    })
-
-    let animId;
-    let autoDirection = -1;
-    let isAutoPlaying = true;
-    let resumeTimer = null;
-    let wasDragging = false;
-    let momentum = 0;
-    const MOMENTUM_MULTIPLIER = 10;
-    const MOMENTUM_DECAY = 0.96;
-
-    function isLastVisible() {
-      const triggerIndex = slidesData.length - 1;
-      const triggerSlide = slides[triggerIndex];
-      if (!triggerSlide) return false;
-      const slideLeft = triggerSlide.offsetLeft + slider.target;
-      return slideLeft <= (wrapper.offsetWidth - 100);
-    }
-
-    function animate() {
-      slider.update();
-
-      if (slider.isDragging) {
-        isAutoPlaying = false;
-        wasDragging = true;
-        momentum = 0;
-        if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
-      } else if (wasDragging) {
-        momentum = slider.speed * MOMENTUM_MULTIPLIER;
-        wasDragging = false;
-        resumeTimer = setTimeout(() => { isAutoPlaying = true; }, RESUME_DELAY);
-      }
-
-      if (Math.abs(momentum) > 0.5) {
-        slider.target += momentum;
-        momentum *= MOMENTUM_DECAY;
-        slider.target = Math.max(slider.maxScroll, Math.min(0, slider.target));
-      }
-
-      if (isAutoPlaying) {
-        if (autoDirection === -1 && isLastVisible()) autoDirection = 1;
-        if (autoDirection === 1 && slider.target >= 0) { slider.target = 0; autoDirection = -1; }
-        slider.target += autoDirection * AUTO_SPEED;
-        slider.target = Math.max(slider.maxScroll, Math.min(0, slider.target));
-      }
-
-      animId = requestAnimationFrame(animate);
-    }
-
-    animate();
-
-    return () => {
-      cancelAnimationFrame(animId);
-      if (resumeTimer) clearTimeout(resumeTimer);
-      wrapper.removeEventListener('selectstart', preventSelect);
-      slider.destroy();
-    }
-  }, [])
-
+export default function Testimonial() {
   return (
-    <div className='w-full h-150 flex items-center bg-white relative overflow-hidden'>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');`}</style>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap');
+        
+        .testimonial-container {
+          font-family: 'Syne', sans-serif;
+        }
 
-      <div className='absolute left-0 top-0 h-full w-4 lg:w-15 bg-white z-20' />
+        /* Essential for smooth continuous marquee effect */
+        .swiper-wrapper {
+          transition-timing-function: linear !important;
+        }
+      `}</style>
 
-      <div className='w-full h-full relative z-10 pl-6 lg:pl-20'>
-        <div ref={wrapperRef} className='flex h-full items-center will-change-transform'>
-          {slidesData.map((slide, index) => (
-            <div
-              key={index}
-              className={`
-                shrink-0 pointer-events-none
-                w-[75vw] h-[90vw]
-                md:w-[40vw] md:h-[50vw]
-                lg:w-[22vw] lg:h-[28vw]
-                rounded-[4vw] lg:rounded-[1.5vw]
-                flex flex-col justify-between
-                p-[6vw] lg:p-[1.8vw]
-                ${index < slidesData.length - 1 ? 'mr-[4vw] lg:mr-[1.5vw]' : ''}
-              `}
-              style={{ backgroundColor: slide.color, border: '2px solid rgba(0, 0, 0, 0.6)' }}
+      <div className="testimonial-container relative min-h-screen w-full bg-[#1a1a1a] overflow-hidden">
+        {/* Background Layer */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?q=80&w=2940&auto=format&fit=crop"
+            alt="Gallery background"
+            className="w-full h-full object-cover brightness-[0.5] blur-[1px]"
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+
+        {/* Content Layer */}
+        <div className="relative z-10 flex flex-col items-center pt-24 pb-16 px-4 md:px-10 min-h-screen">
+          
+          <h1 className="text-center font-extrabold text-4xl md:text-7xl text-white uppercase tracking-tighter mb-20 max-w-7xl leading-[0.9]">
+            Don't take our <br/> word for it
+          </h1>
+
+          <div className="w-full max-w-450">
+            <Swiper
+              modules={[Autoplay]}
+              spaceBetween={30}
+              slidesPerView={1.2}
+              loop={true}
+              speed={8000} // Adjust this for faster/slower scroll
+              allowTouchMove={true} // Re-enabled user scrolling
+              autoplay={{
+                delay: 0,
+                disableOnInteraction: false, // Keeps scrolling after user swipes
+              }}
+              breakpoints={{
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+                1440: { slidesPerView: 4 },
+              }}
+              className="testimonial-swiper"
             >
-              <p
-                className="text-[5vw] md:text-[3vw] lg:text-[1.4vw] font-medium leading-tight text-black"
-                style={{ fontFamily: "'Syne', sans-serif" }}
-              >
-                "{slide.text}"
-              </p>
+              {testimonials.map((testimonial, index) => (
+                <SwiperSlide key={index} className="pb-10">
+                  <div className="bg-white rounded-3xl p-8 md:p-10 shadow-2xl flex flex-col justify-between h-100">
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-xl font-bold text-black uppercase">
+                          {testimonial.name}
+                        </h2>
+                        <div className="flex gap-0.5">
+                          {[...Array(testimonial.stars)].map((_, i) => (
+                            <StarIcon key={i} className="h-4 w-4 text-black" />
+                          ))}
+                        </div>
+                      </div>
 
-              <div className="flex items-center gap-[2vw] lg:gap-[0.6vw]">
-                <img
-                  src={`https://i.pravatar.cc/150?img=${index + 1}`}
-                  alt={slide.username}
-                  className="w-[8vw] h-[8vw] lg:w-[2.2vw] lg:h-[2.2vw] rounded-full object-cover shrink-0"
-                />
-                <p
-                  className="text-[3.5vw] md:text-[2vw] lg:text-[1.1vw] font-bold tracking-tight text-black/50"
-                  style={{ fontFamily: "'Syne', sans-serif" }}
-                >
-                  {slide.username}
-                </p>
-              </div>
-            </div>
-          ))}
+                      <div className="flex items-center gap-2 mb-6 text-gray-500">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p className="text-xs font-bold uppercase tracking-widest">Verified Customer</p>
+                      </div>
+
+                      <p className="text-lg text-black leading-tight font-medium">
+                        "{testimonial.quote}"
+                      </p>
+                    </div>
+
+                    <p className="text-sm text-gray-400 font-bold uppercase tracking-widest">
+                      {testimonial.location}
+                    </p>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
       </div>
-
-      <div className='absolute right-0 top-0 h-full w-4 lg:w-15 bg-white z-20' />
-    </div>
-  )
+    </>
+  );
 }
-
-export default Testimonials;
